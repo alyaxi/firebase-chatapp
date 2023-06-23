@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { db as firestore } from "../services/firebaseConfig";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 // import { chatRooms } from "../data/chatRooms";
 import ChatInput from "./ChatInput";
 import MessageList from "./MessageList";
@@ -10,7 +10,6 @@ import { fetchChatRooms } from "../services/db";
 
 const ChatScreen = () => {
   const [chatrooms, setChatrooms] = useState([]);
-  const navigate = useNavigate();
   const params = useParams();
   console.log(params, "paramss");
   // console.log(chatRoom, "chatrooom");
