@@ -12,7 +12,7 @@ function App() {
     if (!user) {
       navigate("/");
     }
-  }, [user]);
+  }, [user, navigate]);
   return (
     <div className="container">
       <h1> Chat App</h1>
