@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getMsgs } from "../services/db";
 import { useAuth } from "../context/useAuth";
+import MessageDisplay from "./MessageDisplay";
 
 const MessageList = ({ roomId, render, setRender }) => {
   const [msg, setMsg] = useState([]);
@@ -29,22 +30,13 @@ const MessageList = ({ roomId, render, setRender }) => {
     <div ref={containerRef}>
       <ul className="message-list">
         {msg?.map((x) => (
-          <Message user={x} key={x.id} isOwnMessage={x.userId === user.uid} />
+          <MessageDisplay user={x} key={x.id} isOwnMessage={x.userId === user.uid} />
         ))}
       </ul>
     </div>
   );
 };
 
-function Message({ user, isOwnMessage }) {
-  console.log(user, "messsagegegeg");
-  const { username, message, timestamp, email } = user;
-  return (
-    <li className={["msg", isOwnMessage && "own-message"].join(" ")}>
-      <h4 className="sender" style={isOwnMessage ? {color:"brown"}: {color:"yellow", display:"flex", marginRight: "auto"}}>{isOwnMessage ? "You:" : username}</h4>
-      <h5>message: {message}</h5>
-    </li>
-  );
-}
+
 
 export default MessageList;

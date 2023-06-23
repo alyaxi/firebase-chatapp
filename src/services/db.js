@@ -32,32 +32,37 @@ export const sendMessage = async (chatroomId, user, msg) => {
   }
 };
 
-export const getMsgs = async (roomId) => {
-  // console.log(roomId, cb, "clllclclc");
-  // const data = []
-  try {
-    const querySnapshot = await getDocs(
-      query(
+export const getMsgs = (roomId) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const q = query(
         collection(firestore, "chatRooms", roomId, "texts"),
         orderBy("timestamp", "asc")
-      )
-    );
+      );
 
-    const messages = await querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        const data = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
 
-    return messages;
-  } catch (error) {
-    console.log(error, "errorororororer");
-  }
+    
+
+        // console.log(, "dataaaa");
+        resolve(data); 
+      });
+    } catch (error) {
+      console.log(error, "errorororororer");
+      reject(error); 
+    }
+  });
 };
+
 
 export const fetchChatRooms = async () => {
   try {
     const q = query(
-      collection(firestore, "chatRooms") // Add any additional query conditions as needed
+      collection(firestore, "chatRooms")
     );
     const querySnapshot = await getDocs(q);
     console.log({ querySnapshot });
@@ -66,7 +71,7 @@ export const fetchChatRooms = async () => {
       ...doc.data(),
     }));
     return data;
-    // Handle the retrieved documents here or pass them to a callback function
+
   } catch (error) {
     console.log(error);
   }
